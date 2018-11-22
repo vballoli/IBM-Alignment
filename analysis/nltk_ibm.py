@@ -3,7 +3,6 @@ from nltk.translate.ibm1 import IBMModel1
 from nltk.translate.ibm2 import IBMModel2
 from nltk.translate import AlignedSent
 
-
 def nltk_ibm_one(data, iter=5):
     dual_text = []
     for d_i in range(len(data)):
