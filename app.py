@@ -1,6 +1,7 @@
 import nltk
 import json
 import os
+import time
 
 from analysis.nltk_ibm import *
 from models.ibm_model import *
@@ -46,17 +47,21 @@ def import_data(data=1):
 if __name__=="__main__":
     if app_check():
         ### IBM 1 with EM algorithm implementation ###
+        start = time.time()
         en_lex, fr_lex, t = em_algorithm(import_data(data=1), iterations=30)
         alignments = alignment(import_data(data=1), en_lex, fr_lex, t)
         for a in alignments:
             print(a)
+        print("Q1 time:", time.time() - start)
 
         en_lex, fr_lex, t = em_algorithm(import_data(data=2), iterations=30)
         alignments = alignment(import_data(data=2), en_lex, fr_lex, t)
         for a in alignments:
             print(a)
         # Phrase based translation on data2
+        start = time.time()
         extract_phrases_and_compute_score(import_data(data=1), alignments)
+        print("Q2 time:", time.time() - start)
 
         en_lex, fr_lex, t = em_algorithm(import_data(data=3), iterations=30)
         alignments = alignment(import_data(data=3), en_lex, fr_lex, t)
@@ -66,9 +71,11 @@ if __name__=="__main__":
         extract_phrases_and_compute_score(import_data(data=3), alignments)
 
         # NLTK IBM 1 and IBM 2 implementation
+        start = time.time()
         nltk_ibm_one(import_data(data=1))
         nltk_ibm_two(import_data(data=1))
-
+        print("Q3 time: ", time.time() - start)
+        
         nltk_ibm_one(import_data(data=1))
         nltk_ibm_two(import_data(data=1))
 
