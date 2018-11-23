@@ -4,8 +4,12 @@ import os
 
 from analysis.nltk_ibm import *
 from models.ibm_model import *
+from models.phrases import *
 
 def app_check():
+    """
+    Checks for dataset existence
+    """
     print("Checking for dataset ...")
     print("Searching for en_fr.json")
     for f in os.listdir("./data"):
@@ -17,6 +21,9 @@ def app_check():
             return False
 
 def import_data(data=1):
+    """
+    Reads data from .json files and returns a list of dictionaries.
+    """
     try:
         # IBM 1 and EM algorithm implementation
         if data == 1:
@@ -38,15 +45,26 @@ def import_data(data=1):
 
 if __name__=="__main__":
     if app_check():
-        # IBM 1 with EM algorithm implementation
+        ### IBM 1 with EM algorithm implementation ###
         en_lex, fr_lex, t = em_algorithm(import_data(data=1), iterations=30)
-        alignment(import_data(data=1), en_lex, fr_lex, t)
+        alignments = alignment(import_data(data=1), en_lex, fr_lex, t)
+        for a in alignments:
+            print(a)
 
         en_lex, fr_lex, t = em_algorithm(import_data(data=2), iterations=30)
-        alignment(import_data(data=2), en_lex, fr_lex, t)
+        alignments = alignment(import_data(data=2), en_lex, fr_lex, t)
+        for a in alignments:
+            print(a)
+        # Phrase based translation on data2
+        extract_phrases_and_compute_score(import_data(data=1), alignments)
 
         en_lex, fr_lex, t = em_algorithm(import_data(data=3), iterations=30)
-        alignment(import_data(data=3), en_lex, fr_lex, t)
+        alignments = alignment(import_data(data=3), en_lex, fr_lex, t)
+        for a in alignments:
+            print(a)
+        # Phrase based translation on our data
+        extract_phrases_and_compute_score(import_data(data=3), alignments)
+
         # NLTK IBM 1 and IBM 2 implementation
         nltk_ibm_one(import_data(data=1))
         nltk_ibm_two(import_data(data=1))
@@ -56,6 +74,6 @@ if __name__=="__main__":
 
         nltk_ibm_one(import_data(data=3))
         nltk_ibm_two(import_data(data=3))
-        # NLTK based Phrase extractions
+
     else:
         print("Dataset error. Check again. Ending")

@@ -4,6 +4,9 @@ from nltk.translate.ibm2 import IBMModel2
 from nltk.translate import AlignedSent
 
 def nltk_ibm_one(data, iter=5):
+    """
+    Returns probability scores of translations based on nltk.translate.ibm1 module
+    """
     dual_text = []
     for d_i in range(len(data)):
         fr_sent = word_tokenize(data[d_i]['fr'])
@@ -14,6 +17,9 @@ def nltk_ibm_one(data, iter=5):
     print(ibm_one.translation_table['maison']['house'])
 
 def nltk_ibm_two(data, iter=5):
+    """
+    Returns probability scores of translations based on nltk.translate.ibm2 module.
+    """
     dual_text = []
     for d_i in range(len(data)):
         fr_sent = word_tokenize(data[d_i]['fr'])

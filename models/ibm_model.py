@@ -3,6 +3,9 @@ import numpy as np
 from itertools import permutations
 
 def em_algorithm(data, iterations=30):
+    """
+    Implements EM algorithm on IBM Model 1 and returns t(e|f)
+    """
     sentences = []
     fr_lex = []
     en_lex = []
@@ -47,12 +50,17 @@ def em_algorithm(data, iterations=30):
     return en_lex, fr_lex, t
 
 def alignment(data, en_lex, fr_lex, t, epsilon=1):
+    """
+    Returns alignments based on input English and Foreign language sentences given
+    input corpus.
+    """
     sentences = []
     for pair in data:
         en_sent = pair['en'].split()
         fr_sent = pair['fr'].split()
         sentences.append((en_sent, fr_sent))
 
+    alignments = []
     for pair in sentences:
         l = len(pair[0])
         m = len(pair[1])
@@ -67,4 +75,8 @@ def alignment(data, en_lex, fr_lex, t, epsilon=1):
             if p > max_p:
                 max_p = p
                 best_A = A
-        print(best_A)
+        bestA = []
+        for a in best_A:
+            bestA.append((pair[0].index(a[0]), pair[1].index(a[1])))
+        alignments.append(bestA)
+    return alignments
